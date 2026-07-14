@@ -24,18 +24,27 @@
   }
   .links a:hover { border-color: var(--accent); color: var(--accent); }
   h2 { font-size: 1.35rem; margin: 2.6rem 0 .8rem; border-bottom: 1px solid var(--border); padding-bottom: .35rem; }
-  h3 { font-size: 1.05rem; margin: 1.8rem 0 .5rem; color: var(--muted); }
   .abstract { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.4rem; text-align: justify; }
   figure { margin: 1.5rem 0; text-align: center; }
   figure img { max-width: 100%; height: auto; border-radius: 6px; background: #fff; }
   figcaption { color: var(--muted); font-size: .9rem; margin-top: .6rem; }
-  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
-  table { border-collapse: collapse; width: max-content; min-width: 100%; }
-  th, td { padding: .5rem .7rem; border-bottom: 1px solid var(--border); text-align: center; white-space: nowrap; }
-  thead th { background: var(--card); }
-  tbody tr:last-child td { border-bottom: none; }
-  audio { width: 210px; height: 34px; }
   .note { color: var(--muted); font-size: .9rem; }
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; margin: 0 auto; }
+  th, td { padding: .45rem .6rem; text-align: center; white-space: nowrap; }
+  thead th { font-size: .92rem; }
+  tbody tr:nth-child(odd) { background: var(--card); }
+  td.method { text-align: right; padding-right: 1rem; }
+  tr.prop td.method { font-weight: 700; }
+  button.play {
+    width: 26px; height: 26px; margin: 0 2px; padding: 0;
+    border: none; border-radius: 50%; cursor: pointer;
+    background: var(--accent); color: #fff; font-size: 11px; line-height: 26px;
+    vertical-align: middle;
+  }
+  button.play::before { content: "▶"; }
+  button.play.playing { background: #e0483e; }
+  button.play.playing::before { content: "■"; }
   footer { margin-top: 3rem; color: var(--muted); font-size: .85rem; text-align: center; }
 </style>
 </head>
@@ -72,205 +81,104 @@ scores and ASR performance compared with CleanMel.
 </figure>
 
 <h2 id="samples">Audio Samples</h2>
-<p class="note">Enhanced waveforms are reconstructed from the enhanced Mel-spectrograms with the Vocos vocoder.
-&ldquo;&mdash;&rdquo; means no result / clean reference is available for that utterance (e.g., real-recorded data has no clean reference).</p>
+<p class="note">Each cell contains two utterances. Enhanced waveforms are reconstructed from the enhanced
+Mel-spectrograms with the Vocos vocoder. Empty cells mean no clean reference is available (real-recorded data).</p>
 
-<h3>CHiME-4 (real)</h3>
 <div class="table-wrap">
 <table>
-<thead><tr><th></th><th>Noisy</th><th>CleanMel+ (prop.)</th><th>CleanMel-S (map)</th><th>CMGAN</th><th>ConvTasNet</th><th>StoRM</th><th>Clean</th></tr></thead>
+<thead>
+<tr>
+  <th rowspan="2">Method</th>
+  <th colspan="2">CHiME</th>
+  <th colspan="2">REVERB</th>
+  <th colspan="2">DNS</th>
+  <th rowspan="2">EARS</th>
+  <th rowspan="2">RealMAN<br>static</th>
+</tr>
+<tr>
+  <th>real</th><th>simu.</th>
+  <th>real</th><th>simu.</th>
+  <th>w.o. reverb.</th><th>w. reverb.</th>
+</tr>
+</thead>
 <tbody>
-<tr><td>#1</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_CHIME-real_F05_442C020S_STR_REAL.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/CHIME-real_CleanMelPlus_F05_442C020S_STR_REAL.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMel_S_map/CHIME-real_CleanMel_S_map_F05_442C020S_STR_REAL.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CMGAN/CHIME-real_CMGAN_F05_442C020S_STR_REAL.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/CHIME-real_ConvTasNet_F05_442C020S_STR_REAL.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/CHIME-real_StoRM_F05_442C020S_STR_REAL.wav"></audio></td>
-<td>&mdash;</td></tr>
-<tr><td>#2</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_CHIME-real_M06_440C020G_CAF_REAL.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/CHIME-real_CleanMelPlus_M06_440C020G_CAF_REAL.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMel_S_map/CHIME-real_CleanMel_S_map_M06_440C020G_CAF_REAL.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CMGAN/CHIME-real_CMGAN_M06_440C020G_CAF_REAL.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/CHIME-real_ConvTasNet_M06_440C020G_CAF_REAL.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/CHIME-real_StoRM_M06_440C020G_CAF_REAL.wav"></audio></td>
-<td>&mdash;</td></tr>
-</tbody>
-</table>
-</div>
-
-<h3>CHiME-4 (simu)</h3>
-<div class="table-wrap">
-<table>
-<thead><tr><th></th><th>Noisy</th><th>CleanMel+ (prop.)</th><th>CleanMel-S (map)</th><th>CMGAN</th><th>ConvTasNet</th><th>StoRM</th><th>Clean</th></tr></thead>
-<tbody>
-<tr><td>#1</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_CHIME-simu_F05_447C020H_STR.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/CHIME-simu_CleanMelPlus_F05_447C020H_STR.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMel_S_map/CHIME-simu_CleanMel_S_map_F05_447C020H_STR.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CMGAN/CHIME-simu_CMGAN_F05_447C020H_STR.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/CHIME-simu_ConvTasNet_F05_447C020H_STR.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/CHIME-simu_StoRM_F05_447C020H_STR_SIMU.wav"></audio></td>
-<td><audio controls preload="none" src="samples/clean/clean_CHIME-simu_F05_447C020H_STR.wav"></audio></td></tr>
-<tr><td>#2</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_CHIME-simu_M06_442C020J_BUS.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/CHIME-simu_CleanMelPlus_M06_442C020J_BUS.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMel_S_map/CHIME-simu_CleanMel_S_map_M06_442C020J_BUS.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CMGAN/CHIME-simu_CMGAN_M06_442C020J_BUS.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/CHIME-simu_ConvTasNet_M06_442C020J_BUS.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/CHIME-simu_StoRM_M06_442C020J_BUS_SIMU.wav"></audio></td>
-<td><audio controls preload="none" src="samples/clean/clean_CHIME-simu_M06_442C020J_BUS.wav"></audio></td></tr>
-</tbody>
-</table>
-</div>
-
-<h3>DNS-I (no reverb)</h3>
-<div class="table-wrap">
-<table>
-<thead><tr><th></th><th>Noisy</th><th>CleanMel+ (prop.)</th><th>CleanMel-S (map)</th><th>CMGAN</th><th>ConvTasNet</th><th>StoRM</th><th>Clean</th></tr></thead>
-<tbody>
-<tr><td>#1</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_DNS_I_test-no_reverb_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/DNS_I_test-no_reverb_CleanMelPlus_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMel_S_map/DNS_I_test-no_reverb_CleanMel_S_map_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CMGAN/DNS_I_test-no_reverb_CMGAN_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/DNS_I_test-no_reverb_ConvTasNet_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/DNS_I_test-no_reverb_StoRM_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></audio></td>
-<td><audio controls preload="none" src="samples/clean/clean_DNS_I_test-no_reverb_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></audio></td></tr>
-<tr><td>#2</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_DNS_I_test-no_reverb_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/DNS_I_test-no_reverb_CleanMelPlus_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMel_S_map/DNS_I_test-no_reverb_CleanMel_S_map_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CMGAN/DNS_I_test-no_reverb_CMGAN_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/DNS_I_test-no_reverb_ConvTasNet_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/DNS_I_test-no_reverb_StoRM_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></audio></td>
-<td><audio controls preload="none" src="samples/clean/clean_DNS_I_test-no_reverb_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></audio></td></tr>
-</tbody>
-</table>
-</div>
-
-<h3>DNS-I (with reverb)</h3>
-<div class="table-wrap">
-<table>
-<thead><tr><th></th><th>Noisy</th><th>CleanMel+ (prop.)</th><th>CleanMel-S (map)</th><th>CMGAN</th><th>ConvTasNet</th><th>StoRM</th><th>Clean</th></tr></thead>
-<tbody>
-<tr><td>#1</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_DNS_I_test-with_reverb_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/DNS_I_test-with_reverb_CleanMelPlus_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMel_S_map/DNS_I_test-with_reverb_CleanMel_S_map_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CMGAN/DNS_I_test-with_reverb_CMGAN_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/DNS_I_test-with_reverb_ConvTasNet_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/DNS_I_test-with_reverb_StoRM_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></audio></td>
-<td>&mdash;</td></tr>
-<tr><td>#2</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_DNS_I_test-with_reverb_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/DNS_I_test-with_reverb_CleanMelPlus_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMel_S_map/DNS_I_test-with_reverb_CleanMel_S_map_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CMGAN/DNS_I_test-with_reverb_CMGAN_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/DNS_I_test-with_reverb_ConvTasNet_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/DNS_I_test-with_reverb_StoRM_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></audio></td>
-<td>&mdash;</td></tr>
-</tbody>
-</table>
-</div>
-
-<h3>EARS</h3>
-<div class="table-wrap">
-<table>
-<thead><tr><th></th><th>Noisy</th><th>CleanMel+ (prop.)</th><th>CleanMel-S (map)</th><th>CMGAN</th><th>ConvTasNet</th><th>StoRM</th><th>Clean</th></tr></thead>
-<tbody>
-<tr><td>#1</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_EARs_00220.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/EARs_CleanMelPlus_00220.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMel_S_map/EARs_CleanMel_S_map_00220.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CMGAN/EARs_CMGAN_00220.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/EARs_ConvTasNet_00220.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/EARs_StoRM_00220.wav"></audio></td>
-<td>&mdash;</td></tr>
-<tr><td>#2</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_EARs_00702.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/EARs_CleanMelPlus_00702.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMel_S_map/EARs_CleanMel_S_map_00702.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CMGAN/EARs_CMGAN_00702.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/EARs_ConvTasNet_00702.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/EARs_StoRM_00702.wav"></audio></td>
-<td>&mdash;</td></tr>
-</tbody>
-</table>
-</div>
-
-<h3>RealMAN (static)</h3>
-<div class="table-wrap">
-<table>
-<thead><tr><th></th><th>Noisy</th><th>CleanMel+ (prop.)</th><th>CleanMel-S (map)</th><th>CMGAN</th><th>ConvTasNet</th><th>StoRM</th><th>Clean</th></tr></thead>
-<tbody>
-<tr><td>#1</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_RealMAN_static_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/RealMAN_static_CleanMelPlus_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMel_S_map/RealMAN_static_CleanMel_S_map_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CMGAN/RealMAN_static_CMGAN_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/RealMAN_static_ConvTasNet_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/RealMAN_static_StoRM_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></audio></td>
-<td><audio controls preload="none" src="samples/clean/clean_RealMAN_static_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></audio></td></tr>
-<tr><td>#2</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_RealMAN_static_TEST_S_UND2_0023_0252_CH0.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/RealMAN_static_CleanMelPlus_TEST_S_UND2_0023_0252_CH0.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMel_S_map/RealMAN_static_CleanMel_S_map_TEST_S_UND2_0023_0252_CH0.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CMGAN/RealMAN_static_CMGAN_TEST_S_UND2_0023_0252_CH0.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/RealMAN_static_ConvTasNet_TEST_S_UND2_0023_0252_CH0.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/RealMAN_static_StoRM_TEST_S_UND2_0023_0252_CH0.wav"></audio></td>
-<td><audio controls preload="none" src="samples/clean/clean_RealMAN_static_TEST_S_UND2_0023_0252_CH0.wav"></audio></td></tr>
-</tbody>
-</table>
-</div>
-
-<h3>REVERB (real)</h3>
-<div class="table-wrap">
-<table>
-<thead><tr><th></th><th>Noisy</th><th>CleanMel+ (prop.)</th><th>CleanMel-S (map)</th><th>CMGAN</th><th>ConvTasNet</th><th>StoRM</th><th>Clean</th></tr></thead>
-<tbody>
-<tr><td>#1</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_REVERB-real_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/REVERB-real_CleanMelPlus_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></audio></td>
-<td>&mdash;</td>
-<td><audio controls preload="none" src="samples/CMGAN/REVERB-real_CMGAN_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/REVERB-real_ConvTasNet_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/REVERB-real_StoRM_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></audio></td>
-<td>&mdash;</td></tr>
-<tr><td>#2</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_REVERB-real_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/REVERB-real_CleanMelPlus_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></audio></td>
-<td>&mdash;</td>
-<td><audio controls preload="none" src="samples/CMGAN/REVERB-real_CMGAN_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/REVERB-real_ConvTasNet_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/REVERB-real_StoRM_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></audio></td>
-<td>&mdash;</td></tr>
-</tbody>
-</table>
-</div>
-
-<h3>REVERB (simu)</h3>
-<div class="table-wrap">
-<table>
-<thead><tr><th></th><th>Noisy</th><th>CleanMel+ (prop.)</th><th>CleanMel-S (map)</th><th>CMGAN</th><th>ConvTasNet</th><th>StoRM</th><th>Clean</th></tr></thead>
-<tbody>
-<tr><td>#1</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_REVERB-simu_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/REVERB-simu_CleanMelPlus_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></audio></td>
-<td>&mdash;</td>
-<td><audio controls preload="none" src="samples/CMGAN/REVERB-simu_CMGAN_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/REVERB-simu_ConvTasNet_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/REVERB-simu_StoRM_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></audio></td>
-<td><audio controls preload="none" src="samples/clean/clean_REVERB-simu_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></audio></td></tr>
-<tr><td>#2</td>
-<td><audio controls preload="none" src="samples/noisy/noisy_REVERB-simu_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></audio></td>
-<td><audio controls preload="none" src="samples/CleanMelPlus/REVERB-simu_CleanMelPlus_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></audio></td>
-<td>&mdash;</td>
-<td><audio controls preload="none" src="samples/CMGAN/REVERB-simu_CMGAN_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></audio></td>
-<td><audio controls preload="none" src="samples/ConvTasNet/REVERB-simu_ConvTasNet_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></audio></td>
-<td><audio controls preload="none" src="samples/StoRM/REVERB-simu_StoRM_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></audio></td>
-<td><audio controls preload="none" src="samples/clean/clean_REVERB-simu_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></audio></td></tr>
+<tr>
+  <td class="method">Noisy</td>
+  <td><button class="play" data-src="samples/noisy/noisy_CHIME-real_F05_442C020S_STR_REAL.wav"></button><button class="play" data-src="samples/noisy/noisy_CHIME-real_M06_440C020G_CAF_REAL.wav"></button></td>
+  <td><button class="play" data-src="samples/noisy/noisy_CHIME-simu_F05_447C020H_STR.wav"></button><button class="play" data-src="samples/noisy/noisy_CHIME-simu_M06_442C020J_BUS.wav"></button></td>
+  <td><button class="play" data-src="samples/noisy/noisy_REVERB-real_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></button><button class="play" data-src="samples/noisy/noisy_REVERB-real_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></button></td>
+  <td><button class="play" data-src="samples/noisy/noisy_REVERB-simu_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></button><button class="play" data-src="samples/noisy/noisy_REVERB-simu_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></button></td>
+  <td><button class="play" data-src="samples/noisy/noisy_DNS_I_test-no_reverb_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></button><button class="play" data-src="samples/noisy/noisy_DNS_I_test-no_reverb_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></button></td>
+  <td><button class="play" data-src="samples/noisy/noisy_DNS_I_test-with_reverb_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></button><button class="play" data-src="samples/noisy/noisy_DNS_I_test-with_reverb_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></button></td>
+  <td><button class="play" data-src="samples/noisy/noisy_EARs_00220.wav"></button><button class="play" data-src="samples/noisy/noisy_EARs_00702.wav"></button></td>
+  <td><button class="play" data-src="samples/noisy/noisy_RealMAN_static_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/noisy/noisy_RealMAN_static_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
+</tr>
+<tr>
+  <td class="method">Clean</td>
+  <td></td>
+  <td><button class="play" data-src="samples/clean/clean_CHIME-simu_F05_447C020H_STR.wav"></button><button class="play" data-src="samples/clean/clean_CHIME-simu_M06_442C020J_BUS.wav"></button></td>
+  <td></td>
+  <td><button class="play" data-src="samples/clean/clean_REVERB-simu_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></button><button class="play" data-src="samples/clean/clean_REVERB-simu_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></button></td>
+  <td><button class="play" data-src="samples/clean/clean_DNS_I_test-no_reverb_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></button><button class="play" data-src="samples/clean/clean_DNS_I_test-no_reverb_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></button></td>
+  <td></td>
+  <td></td>
+  <td><button class="play" data-src="samples/clean/clean_RealMAN_static_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/clean/clean_RealMAN_static_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
+</tr>
+<tr>
+  <td class="method">ConvTasNet</td>
+  <td><button class="play" data-src="samples/ConvTasNet/CHIME-real_ConvTasNet_F05_442C020S_STR_REAL.wav"></button><button class="play" data-src="samples/ConvTasNet/CHIME-real_ConvTasNet_M06_440C020G_CAF_REAL.wav"></button></td>
+  <td><button class="play" data-src="samples/ConvTasNet/CHIME-simu_ConvTasNet_F05_447C020H_STR.wav"></button><button class="play" data-src="samples/ConvTasNet/CHIME-simu_ConvTasNet_M06_442C020J_BUS.wav"></button></td>
+  <td><button class="play" data-src="samples/ConvTasNet/REVERB-real_ConvTasNet_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></button><button class="play" data-src="samples/ConvTasNet/REVERB-real_ConvTasNet_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></button></td>
+  <td><button class="play" data-src="samples/ConvTasNet/REVERB-simu_ConvTasNet_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></button><button class="play" data-src="samples/ConvTasNet/REVERB-simu_ConvTasNet_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></button></td>
+  <td><button class="play" data-src="samples/ConvTasNet/DNS_I_test-no_reverb_ConvTasNet_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></button><button class="play" data-src="samples/ConvTasNet/DNS_I_test-no_reverb_ConvTasNet_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></button></td>
+  <td><button class="play" data-src="samples/ConvTasNet/DNS_I_test-with_reverb_ConvTasNet_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></button><button class="play" data-src="samples/ConvTasNet/DNS_I_test-with_reverb_ConvTasNet_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></button></td>
+  <td><button class="play" data-src="samples/ConvTasNet/EARs_ConvTasNet_00220.wav"></button><button class="play" data-src="samples/ConvTasNet/EARs_ConvTasNet_00702.wav"></button></td>
+  <td><button class="play" data-src="samples/ConvTasNet/RealMAN_static_ConvTasNet_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/ConvTasNet/RealMAN_static_ConvTasNet_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
+</tr>
+<tr>
+  <td class="method">CMGAN</td>
+  <td><button class="play" data-src="samples/CMGAN/CHIME-real_CMGAN_F05_442C020S_STR_REAL.wav"></button><button class="play" data-src="samples/CMGAN/CHIME-real_CMGAN_M06_440C020G_CAF_REAL.wav"></button></td>
+  <td><button class="play" data-src="samples/CMGAN/CHIME-simu_CMGAN_F05_447C020H_STR.wav"></button><button class="play" data-src="samples/CMGAN/CHIME-simu_CMGAN_M06_442C020J_BUS.wav"></button></td>
+  <td><button class="play" data-src="samples/CMGAN/REVERB-real_CMGAN_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></button><button class="play" data-src="samples/CMGAN/REVERB-real_CMGAN_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></button></td>
+  <td><button class="play" data-src="samples/CMGAN/REVERB-simu_CMGAN_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></button><button class="play" data-src="samples/CMGAN/REVERB-simu_CMGAN_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></button></td>
+  <td><button class="play" data-src="samples/CMGAN/DNS_I_test-no_reverb_CMGAN_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></button><button class="play" data-src="samples/CMGAN/DNS_I_test-no_reverb_CMGAN_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></button></td>
+  <td><button class="play" data-src="samples/CMGAN/DNS_I_test-with_reverb_CMGAN_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></button><button class="play" data-src="samples/CMGAN/DNS_I_test-with_reverb_CMGAN_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></button></td>
+  <td><button class="play" data-src="samples/CMGAN/EARs_CMGAN_00220.wav"></button><button class="play" data-src="samples/CMGAN/EARs_CMGAN_00702.wav"></button></td>
+  <td><button class="play" data-src="samples/CMGAN/RealMAN_static_CMGAN_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/CMGAN/RealMAN_static_CMGAN_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
+</tr>
+<tr>
+  <td class="method">StoRM</td>
+  <td><button class="play" data-src="samples/StoRM/CHIME-real_StoRM_F05_442C020S_STR_REAL.wav"></button><button class="play" data-src="samples/StoRM/CHIME-real_StoRM_M06_440C020G_CAF_REAL.wav"></button></td>
+  <td><button class="play" data-src="samples/StoRM/CHIME-simu_StoRM_F05_447C020H_STR_SIMU.wav"></button><button class="play" data-src="samples/StoRM/CHIME-simu_StoRM_M06_442C020J_BUS_SIMU.wav"></button></td>
+  <td><button class="play" data-src="samples/StoRM/REVERB-real_StoRM_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></button><button class="play" data-src="samples/StoRM/REVERB-real_StoRM_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></button></td>
+  <td><button class="play" data-src="samples/StoRM/REVERB-simu_StoRM_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></button><button class="play" data-src="samples/StoRM/REVERB-simu_StoRM_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></button></td>
+  <td><button class="play" data-src="samples/StoRM/DNS_I_test-no_reverb_StoRM_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></button><button class="play" data-src="samples/StoRM/DNS_I_test-no_reverb_StoRM_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></button></td>
+  <td><button class="play" data-src="samples/StoRM/DNS_I_test-with_reverb_StoRM_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></button><button class="play" data-src="samples/StoRM/DNS_I_test-with_reverb_StoRM_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></button></td>
+  <td><button class="play" data-src="samples/StoRM/EARs_StoRM_00220.wav"></button><button class="play" data-src="samples/StoRM/EARs_StoRM_00702.wav"></button></td>
+  <td><button class="play" data-src="samples/StoRM/RealMAN_static_StoRM_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/StoRM/RealMAN_static_StoRM_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
+</tr>
+<tr>
+  <td class="method">CleanMel-S (map)</td>
+  <td><button class="play" data-src="samples/CleanMel_S_map/CHIME-real_CleanMel_S_map_F05_442C020S_STR_REAL.wav"></button><button class="play" data-src="samples/CleanMel_S_map/CHIME-real_CleanMel_S_map_M06_440C020G_CAF_REAL.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_S_map/CHIME-simu_CleanMel_S_map_F05_447C020H_STR.wav"></button><button class="play" data-src="samples/CleanMel_S_map/CHIME-simu_CleanMel_S_map_M06_442C020J_BUS.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_S_map/REVERB-real_CleanMel_S_map_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></button><button class="play" data-src="samples/CleanMel_S_map/REVERB-real_CleanMel_S_map_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_S_map/REVERB-simu_CleanMel_S_map_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></button><button class="play" data-src="samples/CleanMel_S_map/REVERB-simu_CleanMel_S_map_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_S_map/DNS_I_test-no_reverb_CleanMel_S_map_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></button><button class="play" data-src="samples/CleanMel_S_map/DNS_I_test-no_reverb_CleanMel_S_map_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_S_map/DNS_I_test-with_reverb_CleanMel_S_map_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></button><button class="play" data-src="samples/CleanMel_S_map/DNS_I_test-with_reverb_CleanMel_S_map_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_S_map/EARs_CleanMel_S_map_00220.wav"></button><button class="play" data-src="samples/CleanMel_S_map/EARs_CleanMel_S_map_00702.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_S_map/RealMAN_static_CleanMel_S_map_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/CleanMel_S_map/RealMAN_static_CleanMel_S_map_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
+</tr>
+<tr class="prop">
+  <td class="method">CleanMel+ (prop.)</td>
+  <td><button class="play" data-src="samples/CleanMelPlus/CHIME-real_CleanMelPlus_F05_442C020S_STR_REAL.wav"></button><button class="play" data-src="samples/CleanMelPlus/CHIME-real_CleanMelPlus_M06_440C020G_CAF_REAL.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus/CHIME-simu_CleanMelPlus_F05_447C020H_STR.wav"></button><button class="play" data-src="samples/CleanMelPlus/CHIME-simu_CleanMelPlus_M06_442C020J_BUS.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus/REVERB-real_CleanMelPlus_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></button><button class="play" data-src="samples/CleanMelPlus/REVERB-real_CleanMelPlus_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus/REVERB-simu_CleanMelPlus_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></button><button class="play" data-src="samples/CleanMelPlus/REVERB-simu_CleanMelPlus_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus/DNS_I_test-no_reverb_CleanMelPlus_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></button><button class="play" data-src="samples/CleanMelPlus/DNS_I_test-no_reverb_CleanMelPlus_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus/DNS_I_test-with_reverb_CleanMelPlus_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></button><button class="play" data-src="samples/CleanMelPlus/DNS_I_test-with_reverb_CleanMelPlus_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus/EARs_CleanMelPlus_00220.wav"></button><button class="play" data-src="samples/CleanMelPlus/EARs_CleanMelPlus_00702.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus/RealMAN_static_CleanMelPlus_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/CleanMelPlus/RealMAN_static_CleanMelPlus_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -280,5 +188,25 @@ scores and ASR performance compared with CleanMel.
 </footer>
 
 </div>
+
+<script>
+const player = new Audio();
+let current = null;
+document.querySelectorAll("button.play").forEach(btn => {
+  btn.addEventListener("click", () => {
+    if (current === btn && !player.paused) {
+      player.pause();
+      return;
+    }
+    player.src = btn.dataset.src;
+    player.play();
+    current = btn;
+    btn.classList.add("playing");
+  });
+});
+player.addEventListener("pause", () => {
+  if (current) current.classList.remove("playing");
+});
+</script>
 </body>
 </html>
