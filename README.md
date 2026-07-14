@@ -5,4 +5,5 @@
 
 audio samle 
 🔊 **Audio samples** (noisy / CleanMel+ / baselines, on CHiME-4, DNS, EARS, RealMAN, REVERB): [https://audio-westlakeu.github.io/CleanMelPlus/](https://audio-westlakeu.github.io/CleanMelPlus/)
-Coming Soon
+
+Demo and training code are coming soon.
