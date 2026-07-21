@@ -24,6 +24,7 @@
   }
   .links a:hover { border-color: var(--accent); color: var(--accent); }
   h2 { font-size: 1.35rem; margin: 2.6rem 0 .8rem; border-bottom: 1px solid var(--border); padding-bottom: .35rem; }
+  h3 { font-size: 1.05rem; margin: 1.8rem 0 .4rem; }
   .abstract { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.4rem; text-align: justify; }
   figure { margin: 1.5rem 0; text-align: center; }
   figure img { max-width: 100%; height: auto; border-radius: 6px; background: #fff; }
@@ -55,6 +56,7 @@
 
 <div class="links">
   <a href="https://github.com/Wizard-one/CrossMel">💻 Code</a>
+  <a href="#results">📊 Results</a>
   <a href="#samples">🔊 Audio Samples</a>
 </div>
 
@@ -79,6 +81,104 @@ scores and ASR performance compared with CleanMel.
   <img src="static/main_fig.png" alt="CleanMel+ architecture: interleaved full-band Mamba and narrow-band Mamba blocks for Mel-spectrogram enhancement">
   <figcaption>Overview of CleanMel+. The cross-band linear projection of CleanMel is replaced by full-band bidirectional Mamba, modeling the temporal evolution of full-band spectral patterns.</figcaption>
 </figure>
+
+<h2 id="results">Results</h2>
+
+<h3>ASR Results</h3>
+<p class="note">WER (%) for English (CHiME4, REVERB) and CER (%) for Chinese (RealMAN).</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+  <th rowspan="2">Method</th>
+  <th colspan="2">CHiME4</th>
+  <th colspan="2">REVERB simu</th>
+  <th colspan="2">REVERB real</th>
+  <th rowspan="2">RealMAN<br>static</th>
+</tr>
+<tr>
+  <th>simu</th><th>real</th>
+  <th>near</th><th>far</th>
+  <th>near</th><th>far</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="method">Unprocessed</td><td>15.3</td><td>13.1</td><td>3.7</td><td>4.7</td><td>6.0</td><td>6.3</td><td>20.1</td></tr>
+<tr><td class="method">Clean</td><td>3.1</td><td>&ndash;</td><td>3.4</td><td>3.4</td><td>&ndash;</td><td>&ndash;</td><td>7.7</td></tr>
+<tr><td class="method">ConvTasNet</td><td>17.8</td><td>20.8</td><td>4.6</td><td>8.8</td><td>11.4</td><td>11.9</td><td>28.7</td></tr>
+<tr><td class="method">CMGAN</td><td>18.0</td><td>14.7</td><td>4.1</td><td>4.5</td><td>5.0</td><td>5.6</td><td>21.0</td></tr>
+<tr><td class="method">StoRM</td><td>21.9</td><td>18.2</td><td>4.2</td><td>5.5</td><td>7.3</td><td>7.3</td><td>28.4</td></tr>
+<tr><td class="method">CleanMel</td><td>12.5</td><td>9.8</td><td>3.7</td><td>3.9</td><td>4.2</td><td>4.5</td><td>16.7</td></tr>
+<tr class="prop"><td class="method">CleanMel+ (proposed)</td><td><b>10.5</b></td><td><b>8.2</b></td><td><b>3.6</b></td><td><b>3.7</b></td><td><b>3.7</b></td><td><b>3.8</b></td><td><b>15.6</b></td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>PESQ</h3>
+<p class="note">PESQ scores of different models on different datasets.</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+  <th rowspan="2">Method</th>
+  <th>CHiME4</th>
+  <th>DNS</th>
+  <th>REVERB</th>
+  <th>RealMAN</th>
+  <th>VoiceBank</th>
+</tr>
+<tr>
+  <th>simu</th>
+  <th>w.o. rvb.</th>
+  <th>simu</th>
+  <th>static</th>
+  <th>DEMAND</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="method">Unprocessed</td><td>1.20</td><td>1.58</td><td>1.50</td><td>1.15</td><td>1.97</td></tr>
+<tr><td class="method">ConvTasNet</td><td>1.81</td><td>2.56</td><td>2.18</td><td>1.55</td><td>2.53</td></tr>
+<tr><td class="method">CMGAN</td><td>1.85</td><td>2.72</td><td>2.68</td><td>1.82</td><td>2.53</td></tr>
+<tr><td class="method">StoRM</td><td>1.76</td><td>2.74</td><td>2.52</td><td>1.71</td><td>2.73</td></tr>
+<tr><td class="method">CleanMel</td><td>2.09</td><td>2.95</td><td>2.92</td><td>2.00</td><td>2.76</td></tr>
+<tr class="prop"><td class="method">CleanMel+ (proposed)</td><td><b>2.23</b></td><td><b>2.99</b></td><td><b>2.96</b></td><td><b>2.01</b></td><td><b>2.86</b></td></tr>
+</tbody>
+</table>
+</div>
+
+<h3>DNSMOS</h3>
+<p class="note">DNSMOS (overall) of different models on different datasets.</p>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+  <th rowspan="2">Method</th>
+  <th>CHiME4</th>
+  <th>DNS</th>
+  <th rowspan="2">EARS</th>
+  <th>REVERB</th>
+  <th>RealMAN</th>
+  <th>VoiceBank</th>
+</tr>
+<tr>
+  <th>real</th>
+  <th>w. rvb.</th>
+  <th>real</th>
+  <th>static</th>
+  <th>DEMAND</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="method">Unprocessed</td><td>1.36</td><td>1.41</td><td>2.02</td><td>1.38</td><td>1.53</td><td>2.53</td></tr>
+<tr><td class="method">ConvTasNet</td><td>2.79</td><td>2.50</td><td>2.81</td><td>2.95</td><td>2.64</td><td>3.00</td></tr>
+<tr><td class="method">CMGAN</td><td>3.11</td><td>3.11</td><td><b>3.08</b></td><td>3.07</td><td>2.93</td><td>3.16</td></tr>
+<tr><td class="method">StoRM</td><td>3.29</td><td>3.25</td><td>2.97</td><td>3.25</td><td>3.04</td><td>3.20</td></tr>
+<tr><td class="method">CleanMel</td><td>3.33</td><td><b>3.33</b></td><td>3.02</td><td><b>3.39</b></td><td><b>3.25</b></td><td><b>3.26</b></td></tr>
+<tr class="prop"><td class="method">CleanMel+ (proposed)</td><td><b>3.36</b></td><td>3.30</td><td>3.04</td><td>3.37</td><td>3.23</td><td><b>3.26</b></td></tr>
+</tbody>
+</table>
+</div>
+<p class="note">CleanMel+ obtains the lowest WER/CER across all evaluated conditions (Table above), and the best PESQ scores on all five datasets. DNSMOS remains broadly comparable between CleanMel and CleanMel+, suggesting the metric is near saturation in this setting, whereas PESQ and ASR metrics more clearly reflect the benefit of full-band sequence modeling.</p>
 
 <h2 id="samples">Audio Samples</h2>
 <p class="note">Each cell contains two utterances. Enhanced waveforms are reconstructed from the enhanced
