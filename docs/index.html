@@ -108,7 +108,7 @@ scores and ASR performance compared with CleanMel.
 <tr><td class="method">ConvTasNet</td><td>17.8</td><td>20.8</td><td>4.6</td><td>8.8</td><td>11.4</td><td>11.9</td><td>28.7</td></tr>
 <tr><td class="method">CMGAN</td><td>18.0</td><td>14.7</td><td>4.1</td><td>4.5</td><td>5.0</td><td>5.6</td><td>21.0</td></tr>
 <tr><td class="method">StoRM</td><td>21.9</td><td>18.2</td><td>4.2</td><td>5.5</td><td>7.3</td><td>7.3</td><td>28.4</td></tr>
-<tr><td class="method">CleanMel</td><td>12.5</td><td>9.8</td><td>3.7</td><td>3.9</td><td>4.2</td><td>4.5</td><td>16.7</td></tr>
+<tr><td class="method">CleanMel-S (map)</td><td>12.5</td><td>9.8</td><td>3.7</td><td>3.9</td><td>4.2</td><td>4.5</td><td>16.7</td></tr>
 <tr class="prop"><td class="method">CleanMel+ (proposed)</td><td><b>10.5</b></td><td><b>8.2</b></td><td><b>3.6</b></td><td><b>3.7</b></td><td><b>3.7</b></td><td><b>3.8</b></td><td><b>15.6</b></td></tr>
 </tbody>
 </table>
@@ -140,7 +140,7 @@ scores and ASR performance compared with CleanMel.
 <tr><td class="method">ConvTasNet</td><td>1.81</td><td>2.56</td><td>2.18</td><td>1.55</td><td>2.53</td></tr>
 <tr><td class="method">CMGAN</td><td>1.85</td><td>2.72</td><td>2.68</td><td>1.82</td><td>2.53</td></tr>
 <tr><td class="method">StoRM</td><td>1.76</td><td>2.74</td><td>2.52</td><td>1.71</td><td>2.73</td></tr>
-<tr><td class="method">CleanMel</td><td>2.09</td><td>2.95</td><td>2.92</td><td>2.00</td><td>2.76</td></tr>
+<tr><td class="method">CleanMel-S (map)</td><td>2.09</td><td>2.95</td><td>2.92</td><td>2.00</td><td>2.76</td></tr>
 <tr class="prop"><td class="method">CleanMel+ (proposed)</td><td><b>2.23</b></td><td><b>2.99</b></td><td><b>2.96</b></td><td><b>2.01</b></td><td><b>2.86</b></td></tr>
 </tbody>
 </table>
@@ -173,7 +173,7 @@ scores and ASR performance compared with CleanMel.
 <tr><td class="method">ConvTasNet</td><td>2.79</td><td>2.50</td><td>2.81</td><td>2.95</td><td>2.64</td><td>3.00</td></tr>
 <tr><td class="method">CMGAN</td><td>3.11</td><td>3.11</td><td><b>3.08</b></td><td>3.07</td><td>2.93</td><td>3.16</td></tr>
 <tr><td class="method">StoRM</td><td>3.29</td><td>3.25</td><td>2.97</td><td>3.25</td><td>3.04</td><td>3.20</td></tr>
-<tr><td class="method">CleanMel</td><td>3.33</td><td><b>3.33</b></td><td>3.02</td><td><b>3.39</b></td><td><b>3.25</b></td><td><b>3.26</b></td></tr>
+<tr><td class="method">CleanMel-S (map)</td><td>3.33</td><td><b>3.33</b></td><td>3.02</td><td><b>3.39</b></td><td><b>3.25</b></td><td><b>3.26</b></td></tr>
 <tr class="prop"><td class="method">CleanMel+ (proposed)</td><td><b>3.36</b></td><td>3.30</td><td>3.04</td><td>3.37</td><td>3.23</td><td><b>3.26</b></td></tr>
 </tbody>
 </table>
@@ -267,6 +267,17 @@ Mel-spectrograms with the Vocos vocoder. Empty cells mean no clean reference is 
   <td><button class="play" data-src="samples/CleanMel_S_map/DNS_I_test-with_reverb_CleanMel_S_map_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></button><button class="play" data-src="samples/CleanMel_S_map/DNS_I_test-with_reverb_CleanMel_S_map_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></button></td>
   <td><button class="play" data-src="samples/CleanMel_S_map/EARs_CleanMel_S_map_00220.wav"></button><button class="play" data-src="samples/CleanMel_S_map/EARs_CleanMel_S_map_00702.wav"></button></td>
   <td><button class="play" data-src="samples/CleanMel_S_map/RealMAN_static_CleanMel_S_map_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/CleanMel_S_map/RealMAN_static_CleanMel_S_map_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
+</tr>
+<tr>
+  <td class="method">CleanMel-L (map)</td>
+  <td><button class="play" data-src="samples/CleanMel_L_map/CHIME-real_CleanMel_L_map_F05_442C020S_STR_REAL.wav"></button><button class="play" data-src="samples/CleanMel_L_map/CHIME-real_CleanMel_L_map_M06_440C020G_CAF_REAL.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_L_map/CHIME-simu_CleanMel_L_map_F05_447C020H_STR.wav"></button><button class="play" data-src="samples/CleanMel_L_map/CHIME-simu_CleanMel_L_map_M06_442C020J_BUS.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_L_map/REVERB-real_CleanMel_L_map_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></button><button class="play" data-src="samples/CleanMel_L_map/REVERB-real_CleanMel_L_map_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_L_map/REVERB-simu_CleanMel_L_map_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></button><button class="play" data-src="samples/CleanMel_L_map/REVERB-simu_CleanMel_L_map_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_L_map/DNS_I_test-no_reverb_CleanMel_L_map_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></button><button class="play" data-src="samples/CleanMel_L_map/DNS_I_test-no_reverb_CleanMel_L_map_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_L_map/DNS_I_test-with_reverb_CleanMel_L_map_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></button><button class="play" data-src="samples/CleanMel_L_map/DNS_I_test-with_reverb_CleanMel_L_map_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_L_map/EARs_CleanMel_L_map_00220.wav"></button><button class="play" data-src="samples/CleanMel_L_map/EARs_CleanMel_L_map_00702.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMel_L_map/RealMAN_static_CleanMel_L_map_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/CleanMel_L_map/RealMAN_static_CleanMel_L_map_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
 </tr>
 <tr class="prop">
   <td class="method">CleanMel+ (prop.)</td>
