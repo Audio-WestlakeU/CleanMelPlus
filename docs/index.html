@@ -24,7 +24,6 @@
   }
   .links a:hover { border-color: var(--accent); color: var(--accent); }
   h2 { font-size: 1.35rem; margin: 2.6rem 0 .8rem; border-bottom: 1px solid var(--border); padding-bottom: .35rem; }
-  h3 { font-size: 1.05rem; margin: 1.8rem 0 .4rem; }
   .abstract { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.4rem; text-align: justify; }
   figure { margin: 1.5rem 0; text-align: center; }
   figure img { max-width: 100%; height: auto; border-radius: 6px; background: #fff; }
@@ -34,6 +33,31 @@
   table { border-collapse: collapse; margin: 0 auto; }
   th, td { padding: .45rem .6rem; text-align: center; white-space: nowrap; }
   thead th { font-size: .92rem; }
+  .ruled-table { border-top: 1px solid var(--fg); border-bottom: 1px solid var(--fg); }
+  .ruled-table thead { border-bottom: 1px solid var(--fg); }
+  .ruled-table .group-rule { border-bottom: 1px solid var(--fg); }
+  .ruled-table .group-end,
+  .asr-table tbody td:nth-child(1),
+  .asr-table tbody td:nth-child(3),
+  .asr-table tbody td:nth-child(5),
+  .asr-table tbody td:nth-child(7) { border-right: 1px solid var(--fg); }
+  .asr-table tbody tr:nth-child(2),
+  .asr-table tbody tr:nth-child(9) { border-bottom: 1px solid var(--fg); }
+  .metric-table thead tr:first-child th:not(:last-child),
+  .metric-table thead tr:last-child th,
+  .metric-table tbody td:not(:last-child),
+  .simple-table th:not(:last-child),
+  .simple-table td:not(:last-child) { border-right: 1px solid var(--fg); }
+  .metric-table tbody tr:first-child,
+  .metric-table tbody tr:nth-child(8),
+  .simple-table tbody tr:nth-child(7),
+  .audio-table tbody tr:nth-child(2),
+  .audio-table tbody tr:nth-child(9) { border-bottom: 1px solid var(--fg); }
+  .audio-table tbody td:nth-child(1),
+  .audio-table tbody td:nth-child(3),
+  .audio-table tbody td:nth-child(5),
+  .audio-table tbody td:nth-child(7),
+  .audio-table tbody td:nth-child(8) { border-right: 1px solid var(--fg); }
   tbody tr:nth-child(odd) { background: var(--card); }
   td.method { text-align: right; padding-right: 1rem; }
   tr.prop td.method { font-weight: 700; }
@@ -62,18 +86,7 @@
 
 <h2>Abstract</h2>
 <p class="abstract">
-CleanMel is a single-channel Mel-spectrogram enhancement framework that predicts clean
-Mel-spectrograms from noisy and reverberant speech. The enhanced Mel-spectrograms can be
-converted to waveforms by a neural vocoder or directly used as input to automatic speech
-recognition (ASR) systems. CleanMel uses interleaved narrow-band and cross-band processing,
-where the cross-band block learns full-band spectral patterns through a frame-independent
-across-frequency projection; however, this projection does not model how these patterns
-evolve over time. To address this limitation, we propose <b>CleanMel+</b>, which investigates
-Full-band bidirectional Mamba for modeling the temporal evolution of full-band spectral
-patterns in CleanMel's cross-band processing, with a tunable expansion of the hidden
-dimension to increase representation capacity. Experiments on five English and one Chinese
-public datasets show that CleanMel+ improves Perceptual Evaluation of Speech Quality (PESQ)
-scores and ASR performance compared with CleanMel.
+CleanMel is a single-channel Mel-spectrogram enhancement framework that predicts clean Mel-spectrograms from noisy and reverberant speech. The enhanced Mel-spectrograms can be converted to waveforms by a neural vocoder or directly used as input to automatic speech recognition (ASR) systems. CleanMel uses interleaved narrow-band and cross-band processing, where the cross-band block learns full-band spectral patterns through a frame-independent across-frequency projection; however, this projection does not model how these patterns evolve over time. To address this limitation, we propose CleanMel+, which investigates Full-band Mamba for modeling the temporal evolution of full-band spectral patterns in CleanMel's cross-band processing, with a tunable expansion of the hidden dimension to increase representation capacity. Experiments on five English and one Chinese public datasets show that CleanMel+ improves Perceptual Evaluation of Speech Quality (PESQ) scores and ASR performance compared with CleanMel in most evaluated conditions.
 </p>
 
 <h2>Model Architecture</h2>
@@ -85,21 +98,23 @@ scores and ASR performance compared with CleanMel.
 <h2 id="results">Results</h2>
 
 <h3>ASR Results</h3>
-<p class="note">WER (%) for English (CHiME4, REVERB) and CER (%) for Chinese (RealMAN).</p>
+<p class="note">WER (%) for English (CHiME-4, REVERB) and CER (%) for Chinese (RealMAN).</p>
 <div class="table-wrap">
-<table>
+<table class="ruled-table asr-table">
 <thead>
 <tr>
-  <th rowspan="2">Method</th>
-  <th colspan="2">CHiME4</th>
-  <th colspan="2">REVERB simu</th>
-  <th colspan="2">REVERB real</th>
-  <th rowspan="2">RealMAN<br>static</th>
+  <th class="group-end" rowspan="3">Method</th>
+  <th class="group-rule group-end" colspan="2">CHiME-4</th>
+  <th class="group-rule group-end" colspan="4">REVERB</th>
+  <th rowspan="3">RealMAN<br>static</th>
 </tr>
 <tr>
-  <th>simu</th><th>real</th>
-  <th>near</th><th>far</th>
-  <th>near</th><th>far</th>
+  <th rowspan="2">simu</th><th class="group-end" rowspan="2">real</th>
+  <th class="group-rule group-end" colspan="2">simu</th><th class="group-rule group-end" colspan="2">real</th>
+</tr>
+<tr>
+  <th>near</th><th class="group-end">far</th>
+  <th>near</th><th class="group-end">far</th>
 </tr>
 </thead>
 <tbody>
@@ -108,31 +123,34 @@ scores and ASR performance compared with CleanMel.
 <tr><td class="method">ConvTasNet</td><td>17.8</td><td>20.8</td><td>4.6</td><td>8.8</td><td>11.4</td><td>11.9</td><td>28.7</td></tr>
 <tr><td class="method">CMGAN</td><td>18.0</td><td>14.7</td><td>4.1</td><td>4.5</td><td>5.0</td><td>5.6</td><td>21.0</td></tr>
 <tr><td class="method">StoRM</td><td>21.9</td><td>18.2</td><td>4.2</td><td>5.5</td><td>7.3</td><td>7.3</td><td>28.4</td></tr>
-<tr><td class="method">CleanMel-S (map)</td><td>12.5</td><td>9.8</td><td>3.7</td><td>3.9</td><td>4.2</td><td>4.5</td><td>16.7</td></tr>
-<tr class="prop"><td class="method">CleanMel+ (proposed)</td><td><b>10.5</b></td><td><b>8.2</b></td><td><b>3.6</b></td><td><b>3.7</b></td><td><b>3.7</b></td><td><b>3.8</b></td><td><b>15.6</b></td></tr>
+<tr><td class="method">FlowSE</td><td>23.2</td><td>19.8</td><td>4.4</td><td>5.9</td><td>7.2</td><td>7.3</td><td>27.0</td></tr>
+<tr><td class="method">LLaSE-G1</td><td>22.0</td><td>19.1</td><td>6.4</td><td>7.6</td><td>7.5</td><td>8.4</td><td>&ndash;</td></tr>
+<tr><td class="method">CleanMel-S</td><td>12.5</td><td>9.8</td><td>3.7</td><td>3.9</td><td>4.2</td><td>4.5</td><td>16.7</td></tr>
+<tr><td class="method">CleanMel-L</td><td>10.2</td><td>8.1</td><td>3.7</td><td>3.8</td><td>3.8</td><td><b>3.3</b></td><td>14.9</td></tr>
+<tr class="prop"><td class="method">CleanMel+-S</td><td>10.7</td><td>8.5</td><td><b>3.6</b></td><td><b>3.7</b></td><td><b>3.6</b></td><td>4.3</td><td>16.1</td></tr>
+<tr class="prop"><td class="method">CleanMel+-L</td><td><b>9.1</b></td><td><b>7.0</b></td><td><b>3.6</b></td><td><b>3.7</b></td><td><b>3.6</b></td><td>3.6</td><td><b>14.1</b></td></tr>
 </tbody>
 </table>
 </div>
 
 <h3>PESQ</h3>
-<p class="note">PESQ scores of different models on different datasets.</p>
+<p class="note">PESQ scores of different models on different datasets (VB-DMD denotes VoiceBank-DEMAND).</p>
 <div class="table-wrap">
-<table>
+<table class="ruled-table metric-table">
 <thead>
 <tr>
   <th rowspan="2">Method</th>
-  <th>CHiME4</th>
+  <th>CHiME-4</th>
   <th>DNS</th>
   <th>REVERB</th>
   <th>RealMAN</th>
-  <th>VoiceBank</th>
+  <th rowspan="2">VB-DMD</th>
 </tr>
 <tr>
   <th>simu</th>
   <th>w.o. rvb.</th>
   <th>simu</th>
   <th>static</th>
-  <th>DEMAND</th>
 </tr>
 </thead>
 <tbody>
@@ -140,65 +158,96 @@ scores and ASR performance compared with CleanMel.
 <tr><td class="method">ConvTasNet</td><td>1.81</td><td>2.56</td><td>2.18</td><td>1.55</td><td>2.53</td></tr>
 <tr><td class="method">CMGAN</td><td>1.85</td><td>2.72</td><td>2.68</td><td>1.82</td><td>2.53</td></tr>
 <tr><td class="method">StoRM</td><td>1.76</td><td>2.74</td><td>2.52</td><td>1.71</td><td>2.73</td></tr>
-<tr><td class="method">CleanMel-S (map)</td><td>2.09</td><td>2.95</td><td>2.92</td><td>2.00</td><td>2.76</td></tr>
-<tr class="prop"><td class="method">CleanMel+ (proposed)</td><td><b>2.23</b></td><td><b>2.99</b></td><td><b>2.96</b></td><td><b>2.01</b></td><td><b>2.86</b></td></tr>
+<tr><td class="method">FlowSE</td><td>1.68</td><td>2.76</td><td>2.41</td><td>1.67</td><td>2.79</td></tr>
+<tr><td class="method">LLaSE-G1</td><td>1.55</td><td>1.78</td><td>1.42</td><td>&ndash;</td><td>1.90</td></tr>
+<tr><td class="method">CleanMel-S</td><td>2.09</td><td>2.95</td><td>2.92</td><td>2.00</td><td>2.76</td></tr>
+<tr><td class="method">CleanMel-L</td><td>2.23</td><td>3.06</td><td>3.01</td><td><b>2.10</b></td><td>2.85</td></tr>
+<tr class="prop"><td class="method">CleanMel+-S</td><td>2.22</td><td>3.00</td><td>2.96</td><td>1.97</td><td>2.85</td></tr>
+<tr class="prop"><td class="method">CleanMel+-L</td><td><b>2.29</b></td><td><b>3.08</b></td><td><b>3.07</b></td><td>2.05</td><td><b>2.89</b></td></tr>
 </tbody>
 </table>
 </div>
 
 <h3>DNSMOS</h3>
-<p class="note">DNSMOS (overall) of different models on different datasets.</p>
+<p class="note">DNSMOS (P.835 overall) of different models on different datasets (VB-DMD denotes VoiceBank-DEMAND).</p>
 <div class="table-wrap">
-<table>
+<table class="ruled-table metric-table">
 <thead>
 <tr>
   <th rowspan="2">Method</th>
-  <th>CHiME4</th>
+  <th>CHiME-4</th>
   <th>DNS</th>
   <th rowspan="2">EARS</th>
   <th>REVERB</th>
   <th>RealMAN</th>
-  <th>VoiceBank</th>
+  <th rowspan="2">VB-DMD</th>
 </tr>
 <tr>
   <th>real</th>
   <th>w. rvb.</th>
   <th>real</th>
   <th>static</th>
-  <th>DEMAND</th>
 </tr>
 </thead>
 <tbody>
 <tr><td class="method">Unprocessed</td><td>1.36</td><td>1.41</td><td>2.02</td><td>1.38</td><td>1.53</td><td>2.53</td></tr>
 <tr><td class="method">ConvTasNet</td><td>2.79</td><td>2.50</td><td>2.81</td><td>2.95</td><td>2.64</td><td>3.00</td></tr>
-<tr><td class="method">CMGAN</td><td>3.11</td><td>3.11</td><td><b>3.08</b></td><td>3.07</td><td>2.93</td><td>3.16</td></tr>
+<tr><td class="method">CMGAN</td><td>3.11</td><td>3.11</td><td>3.08</td><td>3.07</td><td>2.93</td><td>3.16</td></tr>
 <tr><td class="method">StoRM</td><td>3.29</td><td>3.25</td><td>2.97</td><td>3.25</td><td>3.04</td><td>3.20</td></tr>
-<tr><td class="method">CleanMel-S (map)</td><td>3.33</td><td><b>3.33</b></td><td>3.02</td><td><b>3.39</b></td><td><b>3.25</b></td><td><b>3.26</b></td></tr>
-<tr class="prop"><td class="method">CleanMel+ (proposed)</td><td><b>3.36</b></td><td>3.30</td><td>3.04</td><td>3.37</td><td>3.23</td><td><b>3.26</b></td></tr>
+<tr><td class="method">FlowSE</td><td>3.28</td><td>3.11</td><td>3.06</td><td>2.59</td><td>2.50</td><td>3.23</td></tr>
+<tr><td class="method">LLaSE-G1</td><td>3.33</td><td><b>3.34</b></td><td><b>3.17</b></td><td>3.07</td><td>&ndash;</td><td>3.15</td></tr>
+<tr><td class="method">CleanMel-S</td><td>3.33</td><td>3.33</td><td>3.02</td><td><b>3.39</b></td><td><b>3.25</b></td><td>3.26</td></tr>
+<tr><td class="method">CleanMel-L</td><td>3.36</td><td>3.33</td><td>3.02</td><td><b>3.39</b></td><td>3.23</td><td>3.26</td></tr>
+<tr class="prop"><td class="method">CleanMel+-S</td><td>3.36</td><td>3.27</td><td>3.02</td><td>3.36</td><td>3.22</td><td>3.26</td></tr>
+<tr class="prop"><td class="method">CleanMel+-L</td><td><b>3.37</b></td><td>3.29</td><td>3.03</td><td>3.36</td><td>3.20</td><td><b>3.27</b></td></tr>
 </tbody>
 </table>
 </div>
-<p class="note">CleanMel+ obtains the lowest WER/CER across all evaluated conditions (Table above), and the best PESQ scores on all five datasets. DNSMOS remains broadly comparable between CleanMel and CleanMel+, suggesting the metric is near saturation in this setting, whereas PESQ and ASR metrics more clearly reflect the benefit of full-band sequence modeling.</p>
+
+<h3>Computational Complexity</h3>
+<p class="note">FLOPs (G/s) and number of parameters (M).</p>
+<div class="table-wrap">
+<table class="ruled-table simple-table">
+<thead>
+<tr>
+  <th>Method</th>
+  <th>FLOPs (G/s)</th>
+  <th>#Param (M)</th>
+</tr>
+</thead>
+<tbody>
+<tr><td class="method">ConvTasNet</td><td>10</td><td>5.0</td></tr>
+<tr><td class="method">CMGAN</td><td>62</td><td>1.8</td></tr>
+<tr><td class="method">StoRM</td><td>4600</td><td>55.1</td></tr>
+<tr><td class="method">FlowSE</td><td>1335</td><td>65.6</td></tr>
+<tr><td class="method">LLaSE-G1</td><td>101.5</td><td>1072.9</td></tr>
+<tr><td class="method">CleanMel-S (+ Vocos)</td><td>39+3</td><td>2.5+13.2</td></tr>
+<tr><td class="method">CleanMel-L (+ Vocos)</td><td>144+3</td><td>7.2+13.2</td></tr>
+<tr class="prop"><td class="method">CleanMel+-S (+ Vocos)</td><td>37+3</td><td>4.4+13.2</td></tr>
+<tr class="prop"><td class="method">CleanMel+-L (+ Vocos)</td><td>143+3</td><td>8.5+13.2</td></tr>
+</tbody>
+</table>
+</div>
 
 <h2 id="samples">Audio Samples</h2>
 <p class="note">Each cell contains two utterances. Enhanced waveforms are reconstructed from the enhanced
 Mel-spectrograms with the Vocos vocoder. Empty cells mean no clean reference is available (real-recorded data).</p>
 
 <div class="table-wrap">
-<table>
+<table class="ruled-table audio-table">
 <thead>
 <tr>
-  <th rowspan="2">Method</th>
-  <th colspan="2">CHiME</th>
-  <th colspan="2">REVERB</th>
-  <th colspan="2">DNS</th>
-  <th rowspan="2">EARS</th>
+  <th class="group-end" rowspan="2">Method</th>
+  <th class="group-rule group-end" colspan="2">CHiME</th>
+  <th class="group-rule group-end" colspan="2">REVERB</th>
+  <th class="group-rule group-end" colspan="2">DNS</th>
+  <th class="group-end" rowspan="2">EARS</th>
   <th rowspan="2">RealMAN<br>static</th>
 </tr>
 <tr>
-  <th>real</th><th>simu.</th>
-  <th>real</th><th>simu.</th>
-  <th>w.o. reverb.</th><th>w. reverb.</th>
+  <th>real</th><th class="group-end">simu.</th>
+  <th>real</th><th class="group-end">simu.</th>
+  <th>w.o. reverb.</th><th class="group-end">w. reverb.</th>
 </tr>
 </thead>
 <tbody>
@@ -258,6 +307,28 @@ Mel-spectrograms with the Vocos vocoder. Empty cells mean no clean reference is 
   <td><button class="play" data-src="samples/StoRM/RealMAN_static_StoRM_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/StoRM/RealMAN_static_StoRM_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
 </tr>
 <tr>
+  <td class="method">FlowSE</td>
+  <td><button class="play" data-src="samples/FlowSE/CHIME-real_FlowSE_F05_442C020S_STR_REAL.wav"></button><button class="play" data-src="samples/FlowSE/CHIME-real_FlowSE_M06_440C020G_CAF_REAL.wav"></button></td>
+  <td><button class="play" data-src="samples/FlowSE/CHIME-simu_FlowSE_F05_447C020H_STR.wav"></button><button class="play" data-src="samples/FlowSE/CHIME-simu_FlowSE_M06_442C020J_BUS.wav"></button></td>
+  <td><button class="play" data-src="samples/FlowSE/REVERB-real_FlowSE_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></button><button class="play" data-src="samples/FlowSE/REVERB-real_FlowSE_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></button></td>
+  <td><button class="play" data-src="samples/FlowSE/REVERB-simu_FlowSE_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></button><button class="play" data-src="samples/FlowSE/REVERB-simu_FlowSE_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></button></td>
+  <td><button class="play" data-src="samples/FlowSE/DNS_I_test-no_reverb_FlowSE_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></button><button class="play" data-src="samples/FlowSE/DNS_I_test-no_reverb_FlowSE_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></button></td>
+  <td><button class="play" data-src="samples/FlowSE/DNS_I_test-with_reverb_FlowSE_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></button><button class="play" data-src="samples/FlowSE/DNS_I_test-with_reverb_FlowSE_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></button></td>
+  <td><button class="play" data-src="samples/FlowSE/EARs_FlowSE_00220.wav"></button><button class="play" data-src="samples/FlowSE/EARs_FlowSE_00702.wav"></button></td>
+  <td><button class="play" data-src="samples/FlowSE/RealMAN_static_FlowSE_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/FlowSE/RealMAN_static_FlowSE_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
+</tr>
+<tr>
+  <td class="method">LLaSE-G1</td>
+  <td><button class="play" data-src="samples/LLaSE-G1/CHIME-real_LLaSE-G1_F05_442C020S_STR_REAL.wav"></button><button class="play" data-src="samples/LLaSE-G1/CHIME-real_LLaSE-G1_M06_440C020G_CAF_REAL.wav"></button></td>
+  <td><button class="play" data-src="samples/LLaSE-G1/CHIME-simu_LLaSE-G1_F05_447C020H_STR.wav"></button><button class="play" data-src="samples/LLaSE-G1/CHIME-simu_LLaSE-G1_M06_442C020J_BUS.wav"></button></td>
+  <td><button class="play" data-src="samples/LLaSE-G1/REVERB-real_LLaSE-G1_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></button><button class="play" data-src="samples/LLaSE-G1/REVERB-real_LLaSE-G1_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></button></td>
+  <td><button class="play" data-src="samples/LLaSE-G1/REVERB-simu_LLaSE-G1_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></button><button class="play" data-src="samples/LLaSE-G1/REVERB-simu_LLaSE-G1_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></button></td>
+  <td><button class="play" data-src="samples/LLaSE-G1/DNS_I_test-no_reverb_LLaSE-G1_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></button><button class="play" data-src="samples/LLaSE-G1/DNS_I_test-no_reverb_LLaSE-G1_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></button></td>
+  <td><button class="play" data-src="samples/LLaSE-G1/DNS_I_test-with_reverb_LLaSE-G1_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></button><button class="play" data-src="samples/LLaSE-G1/DNS_I_test-with_reverb_LLaSE-G1_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></button></td>
+  <td><button class="play" data-src="samples/LLaSE-G1/EARs_LLaSE-G1_00220.wav"></button><button class="play" data-src="samples/LLaSE-G1/EARs_LLaSE-G1_00702.wav"></button></td>
+  <td><button class="play" data-src="samples/LLaSE-G1/RealMAN_static_LLaSE-G1_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/LLaSE-G1/RealMAN_static_LLaSE-G1_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
+</tr>
+<tr>
   <td class="method">CleanMel-S (map)</td>
   <td><button class="play" data-src="samples/CleanMel_S_map/CHIME-real_CleanMel_S_map_F05_442C020S_STR_REAL.wav"></button><button class="play" data-src="samples/CleanMel_S_map/CHIME-real_CleanMel_S_map_M06_440C020G_CAF_REAL.wav"></button></td>
   <td><button class="play" data-src="samples/CleanMel_S_map/CHIME-simu_CleanMel_S_map_F05_447C020H_STR.wav"></button><button class="play" data-src="samples/CleanMel_S_map/CHIME-simu_CleanMel_S_map_M06_442C020J_BUS.wav"></button></td>
@@ -280,15 +351,26 @@ Mel-spectrograms with the Vocos vocoder. Empty cells mean no clean reference is 
   <td><button class="play" data-src="samples/CleanMel_L_map/RealMAN_static_CleanMel_L_map_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/CleanMel_L_map/RealMAN_static_CleanMel_L_map_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
 </tr>
 <tr class="prop">
-  <td class="method">CleanMel+ (prop.)</td>
-  <td><button class="play" data-src="samples/CleanMelPlus/CHIME-real_CleanMelPlus_F05_442C020S_STR_REAL.wav"></button><button class="play" data-src="samples/CleanMelPlus/CHIME-real_CleanMelPlus_M06_440C020G_CAF_REAL.wav"></button></td>
-  <td><button class="play" data-src="samples/CleanMelPlus/CHIME-simu_CleanMelPlus_F05_447C020H_STR.wav"></button><button class="play" data-src="samples/CleanMelPlus/CHIME-simu_CleanMelPlus_M06_442C020J_BUS.wav"></button></td>
-  <td><button class="play" data-src="samples/CleanMelPlus/REVERB-real_CleanMelPlus_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></button><button class="play" data-src="samples/CleanMelPlus/REVERB-real_CleanMelPlus_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></button></td>
-  <td><button class="play" data-src="samples/CleanMelPlus/REVERB-simu_CleanMelPlus_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></button><button class="play" data-src="samples/CleanMelPlus/REVERB-simu_CleanMelPlus_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></button></td>
-  <td><button class="play" data-src="samples/CleanMelPlus/DNS_I_test-no_reverb_CleanMelPlus_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></button><button class="play" data-src="samples/CleanMelPlus/DNS_I_test-no_reverb_CleanMelPlus_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></button></td>
-  <td><button class="play" data-src="samples/CleanMelPlus/DNS_I_test-with_reverb_CleanMelPlus_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></button><button class="play" data-src="samples/CleanMelPlus/DNS_I_test-with_reverb_CleanMelPlus_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></button></td>
-  <td><button class="play" data-src="samples/CleanMelPlus/EARs_CleanMelPlus_00220.wav"></button><button class="play" data-src="samples/CleanMelPlus/EARs_CleanMelPlus_00702.wav"></button></td>
-  <td><button class="play" data-src="samples/CleanMelPlus/RealMAN_static_CleanMelPlus_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/CleanMelPlus/RealMAN_static_CleanMelPlus_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
+  <td class="method">CleanMel+-S (prop.)</td>
+  <td><button class="play" data-src="samples/CleanMelPlus_S/CHIME-real_F05_442C020S_STR_REAL.wav"></button><button class="play" data-src="samples/CleanMelPlus_S/CHIME-real_M06_440C020G_CAF_REAL.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_S/CHIME-simu_F05_447C020H_STR.wav"></button><button class="play" data-src="samples/CleanMelPlus_S/CHIME-simu_M06_442C020J_BUS.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_S/REVERB-real_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></button><button class="play" data-src="samples/CleanMelPlus_S/REVERB-real_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_S/REVERB-simu_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></button><button class="play" data-src="samples/CleanMelPlus_S/REVERB-simu_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_S/DNS_I_test-no_reverb_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></button><button class="play" data-src="samples/CleanMelPlus_S/DNS_I_test-no_reverb_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_S/DNS_I_test-with_reverb_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></button><button class="play" data-src="samples/CleanMelPlus_S/DNS_I_test-with_reverb_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_S/EARs_00220.wav"></button><button class="play" data-src="samples/CleanMelPlus_S/EARs_00702.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_S/RealMAN_static_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/CleanMelPlus_S/RealMAN_static_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
+</tr>
+<tr class="prop">
+  <td class="method">CleanMel+-L (prop.)</td>
+  <td><button class="play" data-src="samples/CleanMelPlus_L/CHIME-real_F05_442C020S_STR_REAL.wav"></button><button class="play" data-src="samples/CleanMelPlus_L/CHIME-real_M06_440C020G_CAF_REAL.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_L/CHIME-simu_F05_447C020H_STR.wav"></button><button class="play" data-src="samples/CleanMelPlus_L/CHIME-simu_M06_442C020J_BUS.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_L/REVERB-real_t25_RealData_et_for_1ch_near_room1_A_t25c020j.wav"></button><button class="play" data-src="samples/CleanMelPlus_L/REVERB-real_t36_RealData_et_for_1ch_far_room1_A_t36c020r.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_L/REVERB-simu_c44_SimData_et_for_1ch_far_room1_A_c44c020p.wav"></button><button class="play" data-src="samples/CleanMelPlus_L/REVERB-simu_c48_SimData_et_for_1ch_near_room1_A_c48c020i.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_L/DNS_I_test-no_reverb_clnsp355_bus_84241_5_snr1_tl-33_fileid_59.wav"></button><button class="play" data-src="samples/CleanMelPlus_L/DNS_I_test-no_reverb_clnsp399_squeaky_213909_0_snr10_tl-30_fileid_181.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_L/DNS_I_test-with_reverb_clnsp283_birds_121947_1_snr2_tl-26_fileid_49.wav"></button><button class="play" data-src="samples/CleanMelPlus_L/DNS_I_test-with_reverb_clnsp640_barking_196127_1_snr19_tl-19_fileid_218.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_L/EARs_00220.wav"></button><button class="play" data-src="samples/CleanMelPlus_L/EARs_00702.wav"></button></td>
+  <td><button class="play" data-src="samples/CleanMelPlus_L/RealMAN_static_TEST_S_OFR3_P0006_P0006W0057_CH0.wav"></button><button class="play" data-src="samples/CleanMelPlus_L/RealMAN_static_TEST_S_UND2_0023_0252_CH0.wav"></button></td>
 </tr>
 </tbody>
 </table>
